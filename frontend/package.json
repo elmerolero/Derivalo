@@ -2,6 +2,7 @@
   "name": "derivalo",
   "version": "0.1.0",
   "dependencies": {
+    "@hcaptcha/react-hcaptcha": "^2.0.2",
     "bootstrap-icons": "^1.13.1",
     "github-markdown-css": "^5.9.0",
     "react": "^18",
