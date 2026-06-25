@@ -18,20 +18,20 @@ function App() {
     <Router>
       <Suspense fallback={<p>Cargando...</p>}>
         <div className='bg-teal-400'>
-          <div className='md:w-10/12 m-auto bg-teal-500'>
+          <div className='md:w-10/12 m-auto bg-teal-500 h-screen'>
             <Header />
-            <div className="text-neutral-900 h-[84vh] px-8">
+            <div className="text-neutral-900 h-[81vh] px-8 bg-teal-500">
               <Routes>
                 <Route exact path="/" element={<Home />} />
                 <Route exact path="/home" element={<Home />} />
                 <Route exact path="/console" element={<ProtectedRoute><Console /></ProtectedRoute>}/>
-                <Route exact path="/docs/*" element={<DocsBySection  />} />
+                <Route exact path="/docs/*" element={<DocsBySection/>} />
                 <Route exact path="/login" element={<GuestRoute><LogIn /></GuestRoute>}/>
                 <Route exact path="/upload" element={<ProtectedRoute><UploadArticle /></ProtectedRoute>} />
                 <Route path="*" element={<h2>404 Not found</h2>}/>
               </Routes>
             </div>
-            <div className='border-t'>
+            <div className='border-t bg-teal-500'>
               <p className="text-neutral-100 px-8 text-center">Sitio realizado por elmerolero</p>
             </div>
           </div>

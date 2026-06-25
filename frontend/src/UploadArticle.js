@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import { apiFetch } from './services/api';
 import { getSections } from './services/SectionsService';
 
@@ -10,6 +11,7 @@ export default function UploadArticle(){
     const [sections, setSections] = useState([]);
     const [msg, setMsg] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(()=>{
         (async ()=> setSections(await getSections()))();
@@ -37,8 +39,7 @@ export default function UploadArticle(){
                 const { res, content } = await apiFetch('/api/content/add', { method: 'POST', body: form });
                 setLoading(false);
                 if(!res.ok){ setMsg('Error: ' + JSON.stringify(content.error || await res.text())); return; }
-                
-                
+                navigate('/docs');
             }
             catch(e){ 
                 setLoading(false);
