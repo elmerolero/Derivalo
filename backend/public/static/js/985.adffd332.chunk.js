@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkderivalo=self.webpackChunkderivalo||[]).push([[985],{985:function(n,e,r){r.r(e),r.d(e,{default:function(){return u}});var i=r(184);function u(){return(0,i.jsx)("div",{children:(0,i.jsx)("div",{children:(0,i.jsx)("h1",{children:"Consola"})})})}}}]);
+//# sourceMappingURL=985.adffd332.chunk.js.map

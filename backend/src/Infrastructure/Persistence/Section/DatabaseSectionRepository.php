@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Persistence\Section;
 use App\Domain\Section\Section;
 use App\Domain\Section\SectionRepository;
+use App\Domain\Section\SectionNotFoundException;
 use PDO;
 
 class DatabaseSectionRepository implements SectionRepository
@@ -38,6 +39,62 @@ class DatabaseSectionRepository implements SectionRepository
                 (bool)$row['available']
             );
         }, $rows);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findSectionOfId(int $id): Section
+    {
+        $sql = "SELECT pk_section, name, description, fk_parent, available
+                FROM ct_sections
+                WHERE pk_section = :id";
+
+        $stmt = $this -> db -> prepare($sql);
+
+        $stmt -> bindValue(':id', $id, PDO::PARAM_INT);
+
+        $stmt -> execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$result)
+            throw new SectionNotFoundException();
+
+        return new Section(
+            (int)$result['pk_section'],
+            $result['name'],
+            $result['description'],
+            (int)$result['fk_parent'],
+            (bool)$result['available']
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findSectionOfName(string $name): Section
+    {
+        $sql = "SELECT pk_section, name, description, fk_parent, available
+                FROM ct_sections
+                WHERE name = :name";
+
+        $stmt = $this -> db -> prepare($sql);
+
+        $stmt -> bindValue(':name', $name, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        if(!$result)
+            throw new SectionNotFoundException();
+
+        return new Section(
+            (int)$result['pk_section'],
+            $result['name'],
+            $result['description'],
+            (int)$result['fk_parent'],
+            (bool)$result['available']
+        );
     }
 
     /**
@@ -94,34 +151,6 @@ class DatabaseSectionRepository implements SectionRepository
             $input['description'],
             (int)$input['fk_parent'],
             (bool)$input['available']
-        );
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function findSectionOfName(string $name): Section
-    {
-        $sql = "SELECT pk_section, name, description, fk_parent, available
-                FROM ct_sections
-                WHERE name = :name";
-
-        $stmt = $this -> db -> prepare($sql);
-
-        $stmt -> bindValue(':name', $name, PDO::PARAM_STR);
-
-        $stmt -> execute();
-
-        $result = $stmt->fetch(PDO::FETCH_ASSOC);
-        if(!$result)
-            return null;
-
-        return new Section(
-            (int)$result['pk_section'],
-            $result['name'],
-            $result['description'],
-            (int)$result['fk_parent'],
-            (bool)$result['available']
         );
     }
 }

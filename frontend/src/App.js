@@ -6,10 +6,11 @@ import './App.css';
 
 const GuestRoute = React.lazy(() => import('./GuestRoute'));
 const ProtectedRoute = React.lazy(() => import('./ProtectedRoute'));
+const Home = React.lazy(() => import('./Home'));
+const Console = React.lazy(() => import('./Console'));
 const DocsBySection = React.lazy(() => import('./SectionsDocs'));
 const LogIn = React.lazy(() => import('./LogIn'));
 const UploadArticle = React.lazy(() => import('./UploadArticle'));
-const Home = React.lazy(() => import('./Home'))
 
 function App() {
   return (
@@ -21,11 +22,11 @@ function App() {
             <Header />
             <div className="text-neutral-900 h-[84vh] px-8">
               <Routes>
+                <Route exact path="/" element={<Home />} />
+                <Route exact path="/home" element={<Home />} />
+                <Route exact path="/console" element={<ProtectedRoute><Console /></ProtectedRoute>}/>
                 <Route exact path="/docs/*" element={<DocsBySection  />} />
-                <Route exact path="/login" element={
-                  <GuestRoute><LogIn /></GuestRoute>
-                } />
-                <Route exact path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
+                <Route exact path="/login" element={<GuestRoute><LogIn /></GuestRoute>}/>
                 <Route exact path="/upload" element={<ProtectedRoute><UploadArticle /></ProtectedRoute>} />
                 <Route path="*" element={<h2>404 Not found</h2>}/>
               </Routes>

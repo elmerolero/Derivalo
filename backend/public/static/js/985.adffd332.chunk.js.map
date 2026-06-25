@@ -1,0 +1,1 @@
+{"version":3,"file":"static/js/985.adffd332.chunk.js","mappings":"kKACe,SAASA,IACtB,OACE,0BACE,0BACE,uCAIR,C","sources":["Console.js"],"sourcesContent":["\r\nexport default function Console() {\r\n  return (\r\n    <div>\r\n      <div>\r\n        <h1>Consola</h1>\r\n      </div>\r\n    </div>\r\n  );\r\n}\r\n"],"names":["Console"],"sourceRoot":""}

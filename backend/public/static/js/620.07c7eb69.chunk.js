@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkderivalo=self.webpackChunkderivalo||[]).push([[620],{620:function(e,n,r){r.r(n),r.d(n,{default:function(){return c}});var a=r(199),i=r(224),u=r(184);function c(e){var n=e.children,r=(0,i.a)(),c=r.user;return r.loading?(0,u.jsx)("div",{children:"Loading..."}):c?n:(0,u.jsx)(a.Fg,{to:"/home",replace:!0})}}}]);
+//# sourceMappingURL=620.07c7eb69.chunk.js.map

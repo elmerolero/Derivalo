@@ -12,11 +12,11 @@ interface DocumentRepository
     public function findAll(): array;
 
     /**
-     * @param string $name
-     * @return Document
+     * @param int $id
+     * @return array
      * @throws DocumentNotFoundException
      */
-    public function findDocumentOfName(string $name): Document;
+    public function findDocumentOfId(int $id): array;
 
     /**
      * Find documents for a given section id

@@ -35,35 +35,32 @@ class DatabaseDocumentRepository implements DocumentRepository
         }, $rows);
     }
 
-    public function findDocumentOfName(string $name): Document
+    /**
+     * {@inheritdoc}
+     */
+    public function findDocumentOfId(int $id): array
     {
-        $stmt = $this->db->prepare('SELECT * FROM ct_documents WHERE name = :name');
-        $stmt->execute([':name' => $name]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt = $this->db->prepare('SELECT * FROM documents_view WHERE pk_document = :id');
+        $stmt->execute([':id' => $id]);
+        $row = $stmt -> fetch(PDO::FETCH_ASSOC);
         if (!$row) {
             throw new \Exception('Document not found');
         }
 
-        return new Document(
-            (int)$row['pk_document'],
-            $row['name'],
-            $row['description'],
-            isset($row['fk_section']) ? (int)$row['fk_section'] : null,
-            (bool)$row['available'],
-            isset($row['file']) ? $row['file'] : null
-        );
+        return $row;
     }
 
     public function add(array $input): array
     {
-        $query = "INSERT INTO ct_documents (name, description, fk_section, available, file) VALUES (:name, :description, :fk_section, :available, :file)";
+        $query = "INSERT INTO ct_documents (name, description, fk_section, available, file, fk_author) VALUES (:name, :description, :fk_section, :available, :file, :author)";
         $stmt = $this->db->prepare($query);
         $stmt->execute([
             ':name' => $input['name'],
             ':description' => $input['description'],
             ':fk_section' => $input['fk_section'],
-            ':available' => $input['available']
-            ,':file' => $input['file']
+            ':available' => $input['available'],
+            ':file' => $input['file'],
+            ':author' => $input['userId']
         ]);
 
         $pk = $this->db->lastInsertId();

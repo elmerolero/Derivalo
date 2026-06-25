@@ -7,7 +7,6 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\User\UserAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 class UserRefreshAction extends UserAction
 {
@@ -48,8 +47,7 @@ class UserRefreshAction extends UserAction
             $refresh -> fkUser(),
             $hash,
             new \DateTime('+30 days'),
-            false,
-            new \DateTime()
+            false
         );
 
         $this->refreshTokenRepository->revokeById($refresh->pkRefreshToken());

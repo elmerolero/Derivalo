@@ -20,7 +20,7 @@ export default function LogIn()
             return;
         }
         
-        navigate('/home');
+        navigate('/console');
     }
 
     async function handleSubmit(e){

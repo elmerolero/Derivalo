@@ -13,6 +13,20 @@ class UserLogoutAction extends UserAction
      */
     protected function action(): Response
     {
+        // Invalidate refresh token
+        $raw = $_COOKIE['refresh_token'] ?? null;
+        try {
+            if (!$raw);
+            else{
+                $hash = hash('sha256', $raw);
+                $refresh = $this->refreshTokenRepository->findByTokenHash($hash);
+                $this->refreshTokenRepository->revokeById($refresh->pkRefreshToken());
+            }
+        }
+        catch (\Throwable $e) {
+            // Nothing to do here
+        }
+
         setcookie(
             'refresh_token',
             '',

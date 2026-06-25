@@ -48,7 +48,7 @@ export default function SectionsDocs(){
                     ))}
                 </div>
 
-                <div className="flex flex-col gap-3 mb-4 overflow-auto w-full md:w-2/3">
+                <div className="flex flex-col gap-3 mb-4 w-full md:w-2/3">
                     <div className="flex justify-between items-end">
                         <h2 className="mb-1">Documentos</h2>
                         {user ? ( <Link to="/upload" className="bg-amber-500 rounded hover:border p-2 mb-0 decoration-teal-500 hover:bg-teal-500 hover:bg-teal-50">
@@ -56,9 +56,9 @@ export default function SectionsDocs(){
                                 </Link>) : <></>}
                     </div>
                     
-                    <div className="flex flex-wrap gap-3">
+                    <div className="w-full">
                         {documents.map(doc => (
-                            <a key={doc.pk_document} href={`/content/${doc.name}`} className="w-full bg-teal-50 p-3 rounded">
+                            <a key={doc.pk_document} href={`/content/documents/${doc.pk_document}`} className="w-full bg-teal-50 p-3 rounded">
                                 <h3 className="mt-0">{doc.name}</h3>
                                 <p>{doc.description}</p>
                             </a>

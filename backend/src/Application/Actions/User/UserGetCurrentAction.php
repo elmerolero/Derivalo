@@ -18,28 +18,13 @@ class UserGetCurrentAction extends UserAction
     {
         try {
             // Try to get user id from Bearer token
-            $userId = 0;
-            $authHeader = $this -> request -> getHeaderLine('Authorization');
-            if ($authHeader === '' || !preg_match('/Bearer\s+(.*)$/i', $authHeader, $match)) {
-                return $this -> respondWithData([
-                        'pk_user' => 0,
-                        'email' => ''
-                    ], 
-                    401
-                );
+            $userId = $this -> request -> getAttribute('user');
+            if(!isset($userId) || $userId === 0){
+                return $this -> respondWithData([ 'pk_user' => 0, 'email' => ''], 401);
             }
-            $token = $match[1];
-            $decoded = \Firebase\JWT\JWT::decode($token, new \Firebase\JWT\Key($_ENV['JWT_SECRET'], 'HS256'));
-            $userId = isset($decoded->sub) ? (int)$decoded -> sub : 0;
-            if ($userId === 0) {
-                // return anonymous (frontend expects 0 when not logged)
-                return $this -> respondWithData([
-                    'pk_user' => 0,
-                    'email' => ''], 
-                    401
-                );
-            }
-            $user = $this->userRepository->findUserOfId((int)$userId);
+
+            // Gets user data
+            $user = $this->userRepository -> findUserOfId((int)$userId);
 
             // return minimal user info and csrf token
             return $this->respondWithData([
@@ -48,11 +33,7 @@ class UserGetCurrentAction extends UserAction
             ]);
         }
         catch (\Throwable $e) {
-            return $this -> respondWithData([
-                'pk_user' => 0,
-                'email' => ''], 
-                401
-            );
+            return $this -> respondWithData([ 'pk_user' => 0, 'email' => ''], 401);
         }
     }
 }

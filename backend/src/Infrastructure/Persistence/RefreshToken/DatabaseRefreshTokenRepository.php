@@ -6,7 +6,6 @@ namespace App\Infrastructure\Persistence\RefreshToken;
 
 use App\Domain\RefreshToken\RefreshToken;
 use App\Domain\RefreshToken\RefreshTokenRepository;
-use InvalidArgumentException;
 use DI\NotFoundException;
 use DateTime;
 use PDO;
@@ -27,15 +26,15 @@ class DatabaseRefreshTokenRepository implements RefreshTokenRepository
 
         $stmt = $this -> db -> prepare($query);
 
-        $stmt->execute([
+        $stmt -> execute([
             ':fk_user' => $fkUser,
             ':token_hash' => $tokenHash,
             ':expires_at' => $expiresAt -> format('Y-m-d H:i:s'),
             ':revoked' => $revoked,
-            ':created_at' => (new DateTime()) ->format('Y-m-d H:i:s')
+            ':created_at' => (new DateTime()) -> format('Y-m-d H:i:s')
         ]);
 
-        return (int)$this->db->lastInsertId();
+        return (int)$this -> db-> lastInsertId();
     }
 
     public function findByTokenHash(string $tokenHash): RefreshToken

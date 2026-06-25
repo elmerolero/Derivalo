@@ -21,33 +21,36 @@ use App\Application\Actions\Document\ListDocumentsBySectionAction;
 use App\Application\Actions\Document\AddDocumentAction;
 
 return function (App $app) {
-    $app -> add(function($request, $handler){
+    /*$app -> add(function($request, $handler){
         $response = $handler->handle($request);
 
         return $response -> withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
                          -> withHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-CSRF-Token')
                          -> withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS')
                          -> withHeader('Access-Control-Allow-Credentials', 'true');
-    });
+    });*/
 
     $app->options('/{routes:.*}', function (Request $request, Response $response) {
         // CORS Pre-Flight OPTIONS Request Handler
         return $response;
     });
 
-    $app->get('/', function (Request $request, Response $response) {
-        $html = file_get_contents(__DIR__ . '/../public/main.html');
-        $response->getBody()->write($html);
+    /* Main page */
+    $app -> get('/', function (Request $request, Response $response) {
+        $html = file_get_contents('main.html');
+        $response -> getBody() -> write($html);
         return $response;
     });
 
-    $app->get('/content/{slug}', ViewDocumentAction::class);
-
-    $app->group('/api', function (Group $api) {
-        $api->group('/visitors', function(Group $group){
-            $group->get('', AddVisitorAction::class) -> add(new AuthMiddleware());
+    /* Content section */
+    $app -> group('/content', function(Group $content) {
+        $content -> group('/documents', function(Group $documents){
+            $documents -> get('/{id}', ViewDocumentAction::class);
         });
+    });
 
+    /* API Section */
+    $app->group('/api', function (Group $api) {
         $api->group('/sections', function(Group $group){
             $group->get('', ListSectionsAction::class);
             $group->post('/add', AddSectionAction::class) -> add(new \App\Application\Middleware\CsrfMiddleware()) -> add(new AuthMiddleware());
@@ -71,12 +74,6 @@ return function (App $app) {
             $group->post('/refresh', UserRefreshAction::class);
             
         });
-    });
-
-    $app->get('/admin', function (Request $request, Response $response) {
-        $html = file_get_contents(__DIR__ . '/../public/admin.php');
-        $response->getBody()->write($html);
-        return $response;
     });
 
     /* For react */

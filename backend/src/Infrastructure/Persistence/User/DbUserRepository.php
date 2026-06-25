@@ -6,9 +6,9 @@ namespace App\Infrastructure\Persistence\User;
 
 use App\Domain\User\User;
 use App\Domain\User\UserRepository;
-use DateTime;
 use DI\NotFoundException;
 use InvalidArgumentException;
+use DateTime;
 use PDO;
 
 class DbUserRepository implements UserRepository
@@ -119,7 +119,7 @@ class DbUserRepository implements UserRepository
         ]);
 
         // Get generated ID
-        $pkUser = $this->db->lastInsertId();
+        $pkUser = (int)$this->db->lastInsertId();
         return $pkUser;
     }
 

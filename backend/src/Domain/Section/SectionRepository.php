@@ -12,6 +12,13 @@ interface SectionRepository
     public function findAll(): array;
 
     /**
+     * @param int $id
+     * @return Section
+     * @throws SectionNotFoundException
+     */
+    public function findSectionOfId(int $id): Section;
+
+    /**
      * @param string $name
      * @return Section
      * @throws SectionNotFoundException

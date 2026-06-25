@@ -4,7 +4,6 @@
         <link rel="icon" href="/logo.png"/>
         <meta name="viewport" content="width=device-width,initial-scale=1"/>
         <meta name="theme-color" content="#3fca9e"/>
-        <link href="/static/css/main.6bff2f64.css" rel="stylesheet"/>
         <link href="/layout.css" rel="stylesheet"/>
     </head>
     <body class="bg-teal-400">
@@ -18,12 +17,13 @@
                     <a href="/docs" class="hover:decoration-amber-400">Contenido</a>
                 </div>
             </div>
-            <article>
-                <div>
-                    <div class="px-8 py-2">
-                        {article}
-                    </div>         
+            <article class="px-8 py-2">
+                <div class="flex justify-start md:justify-end w-full mb-0">
+                    <h4>{date}</h4>
                 </div>
+                <h3 class="mt-0">{title}</h3>
+                <h4 class="mb-2"><strong>Autor:</strong> {author}</h4>
+                {article}
             </article> 
             <div class='border-t'>
               <p class="text-neutral-100 px-8 text-center">Sitio realizado por elmerolero</p>

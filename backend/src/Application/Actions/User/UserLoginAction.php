@@ -6,10 +6,8 @@ namespace App\Application\Actions\User;
 use App\Application\Actions\User\UserAction;
 use Psr\Http\Message\ResponseInterface as Response;
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 use DateTime;
 use DateInterval;
-use InvalidArgumentException;
 
 class UserLoginAction extends UserAction
 {
@@ -18,7 +16,6 @@ class UserLoginAction extends UserAction
      */
     protected function action(): Response
     {
-        try{
         $data = $this->request->getParsedBody();
         $user = $this -> validateCrentials($data);
         if($user === false) {
@@ -35,14 +32,12 @@ class UserLoginAction extends UserAction
 
         $refreshToken = bin2hex(random_bytes(32));
         $hash = hash('sha256', $refreshToken);
-
-        $later = new DateTime();
+        
         $this -> refreshTokenRepository -> add(
             $user -> getId(),
             $hash,
-            $later -> add(new DateInterval('P30D')),
-            false,
-            new DateTime()
+            new \DateTime('+30 days'),
+            false
         );
 
         setcookie(
@@ -50,7 +45,7 @@ class UserLoginAction extends UserAction
             $refreshToken,
             [
                 'expires' => time() + 60 * 60 * 24 * 30,
-                'path' => '/api/auth/refresh',
+                'path' => '/api/auth',
                 'secure' => true,
                 'httponly' => true,
                 'samesite' => 'None'
@@ -61,10 +56,6 @@ class UserLoginAction extends UserAction
         return $this->respondWithData([
             'access_token' => $accessToken
         ]);
-        }
-        catch(\Throwable $e){
-            return $this-> respondWithData(['error' => $e -> getMessage()]);
-        }
     }
 
     private function validateCrentials(array $data) {

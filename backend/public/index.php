@@ -31,8 +31,11 @@ $cookieParams = [
     'httponly' => true,
     'samesite' => 'Lax'
 ];
+
+// Securing params
 $secure = (isset($_ENV['APP_ENV']) && $_ENV['APP_ENV'] === 'production');
 if ($secure) $cookieParams['secure'] = true;
+
 // Only set domain if provided
 if (!empty($_ENV['SESSION_DOMAIN'])) {
     $cookieParams['domain'] = $_ENV['SESSION_DOMAIN'];
@@ -102,7 +105,7 @@ $shutdownHandler = new ShutdownHandler(
     $request,
     $errorHandler,
     $displayErrorDetails,
-    $container->get(LoggerInterface::class)
+    $container -> get(LoggerInterface::class)
 );
 register_shutdown_function($shutdownHandler);
 
@@ -113,7 +116,7 @@ $app->addRoutingMiddleware();
 $app->addBodyParsingMiddleware();
 
 // Add Error Middleware
-$errorMiddleware = $app->addErrorMiddleware($displayErrorDetails, $logError, $logErrorDetails);
+$errorMiddleware = $app -> addErrorMiddleware($displayErrorDetails, $logError, $logErrorDetails);
 $errorMiddleware->setDefaultErrorHandler($errorHandler);
 
 // Run App & Emit Response

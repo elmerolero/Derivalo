@@ -1,5 +1,3 @@
-### ¿Por qué reinventar la rueda no es tan malo?
-
 Durante toda mi carrera en programación, me he encontrado siempre con la frase: “no reinventes la rueda”.
 Y siempre me pregunto: ¿por qué no?
 

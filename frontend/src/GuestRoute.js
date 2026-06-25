@@ -9,7 +9,7 @@ export default function GuestRoute({ children }) {
     }
     
     if(user){
-      return <Navigate to="/home" replace/>;
+      return <Navigate to="/console" replace/>;
     }
     
     return children;
